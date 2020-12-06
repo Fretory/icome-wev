@@ -26,6 +26,15 @@ const mutations = {
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
   },
+  SET_SEX: (state, sex) => {
+    state.sex = sex
+  },
+  SET_TEL: (state, telephone) => {
+    state.telephone = telephone
+  },
+  SET_BIRTHDAY: (state, birthday) => {
+    state.birthday = birthday
+  },
   SET_ROLES: (state, roles) => {
     state.roles = roles
   }
@@ -48,7 +57,7 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit, state }) {
+  getInfo: function({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
         const { data } = response
@@ -56,9 +65,9 @@ const actions = {
         if (!data) {
           reject('Verification failed, please Login again.')
         }
-
-        const { roles, name, avatar } = data
-
+        // console.log(data)
+        const { roles, name, avatar, birthday, telephone, sex } = data
+        // console.log(birthday)
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
           reject('getInfo: roles must be a non-null array!')
@@ -67,6 +76,9 @@ const actions = {
         commit('SET_ROLES', roles)
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
+        commit('SET_BIRTHDAY', birthday)
+        commit('SET_SEX', sex)
+        commit('SET_TEL', telephone)
         resolve(data)
       }).catch(error => {
         reject(error)
