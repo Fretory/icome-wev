@@ -10,7 +10,7 @@
   <div class="dashboard-container">
     <el-row :gutter="20">
       <el-col :span="6" :xs="24">
-        {{ name }}
+        <user-card :user="user" />
       </el-col>
       <el-col :span="18" :xs="24">
         <el-card>
@@ -33,11 +33,14 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import UserCard from './components/UserCard'
 
 export default {
   name: 'Dashboard',
+  components: { UserCard },
   data() {
     return {
+      user: {},
       activeTab: 'activity'
     }
   },
@@ -45,10 +48,26 @@ export default {
     ...mapGetters([
       'name',
       'roles',
+      'avatar',
       'birthday',
       'telephone',
       'sex'
     ])
+  },
+  created() {
+    this.getUser()
+  },
+  methods: {
+    getUser() {
+      this.user = {
+        name: this.name,
+        role: this.roles.join(' | '),
+        avatar: this.avatar,
+        birthday: this.birthday,
+        sex: this.sex,
+        telephone: this.telephone
+      }
+    }
   }
 }
 </script>
