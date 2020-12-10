@@ -16,10 +16,11 @@
         <el-card>
           <el-tabs v-model="activeTab">
             <el-tab-pane label="Activity" name="activity">
-              {{ telephone }}
+              <activity />
             </el-tab-pane>
             <el-tab-pane label="Timeline" name="timeline">
-              {{ sex }}
+              <timeline />
+<!--              213-->
             </el-tab-pane>
             <el-tab-pane label="Account" name="account">
               {{ birthday }}
@@ -34,10 +35,12 @@
 <script>
 import { mapGetters } from 'vuex'
 import UserCard from './components/UserCard'
-
+import Activity from './components/Activity'
+import Timeline from './components/Timeline'
 export default {
   name: 'Dashboard',
-  components: { UserCard },
+  // components: { UserCard, Activity },
+  components: { UserCard, Activity, Timeline },
   data() {
     return {
       user: {},

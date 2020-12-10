@@ -30,7 +30,7 @@
 
     <div class="user-bio">
       <div class="user-education user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>Birthday</span></div>
+        <div class="user-bio-section-header"><i class="el-icon-date" /><span>Birthday</span></div>
         <div class="user-bio-section-body">
           <div class="text-muted">
             {{ user.birthday }}
@@ -41,7 +41,7 @@
 
     <div class="user-bio">
       <div class="user-education user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>Sex</span></div>
+        <div class="user-bio-section-header"><i class="el-icon-user" /><span>Sex</span></div>
         <div class="user-bio-section-body">
           <div class="text-muted">
             {{ user.sex }}
@@ -52,7 +52,7 @@
 
     <div class="user-bio">
       <div class="user-education user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>Tel</span></div>
+        <div class="user-bio-section-header"><i class="el-icon-phone" /><span>Tel</span></div>
         <div class="user-bio-section-body">
           <div class="text-muted">
             {{ user.telephone }}
