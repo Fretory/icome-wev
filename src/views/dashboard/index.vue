@@ -20,10 +20,9 @@
             </el-tab-pane>
             <el-tab-pane label="Timeline" name="timeline">
               <timeline />
-<!--              213-->
             </el-tab-pane>
             <el-tab-pane label="Account" name="account">
-              {{ birthday }}
+              <account :user="user"/>
             </el-tab-pane>
           </el-tabs>
         </el-card>
@@ -37,10 +36,11 @@ import { mapGetters } from 'vuex'
 import UserCard from './components/UserCard'
 import Activity from './components/Activity'
 import Timeline from './components/Timeline'
+import Account from './components/Account'
 export default {
   name: 'Dashboard',
   // components: { UserCard, Activity },
-  components: { UserCard, Activity, Timeline },
+  components: { UserCard, Activity, Timeline, Account },
   data() {
     return {
       user: {},
