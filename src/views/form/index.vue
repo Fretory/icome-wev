@@ -1,76 +1,75 @@
 <template>
   <div class="app-container">
-    <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="Activity name">
-        <el-input v-model="form.name" />
-      </el-form-item>
-      <el-form-item label="Activity zone">
-        <el-select v-model="form.region" placeholder="please select your zone">
-          <el-option label="Zone one" value="shanghai" />
-          <el-option label="Zone two" value="beijing" />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="Activity time">
-        <el-col :span="11">
-          <el-date-picker v-model="form.date1" type="date" placeholder="Pick a date" style="width: 100%;" />
-        </el-col>
-        <el-col :span="2" class="line">-</el-col>
-        <el-col :span="11">
-          <el-time-picker v-model="form.date2" type="fixed-time" placeholder="Pick a time" style="width: 100%;" />
-        </el-col>
+    <el-form ref="form" :rules="Rules" :model="form" label-width="120px" label-position="left">
+      <el-form-item prop="name" label="Activity name">
+        <el-input ref="name" v-model="form.name" />
       </el-form-item>
       <el-form-item label="Instant delivery">
         <el-switch v-model="form.delivery" />
       </el-form-item>
-      <el-form-item label="Activity type">
-        <el-checkbox-group v-model="form.type">
-          <el-checkbox label="Online activities" name="type" />
-          <el-checkbox label="Promotion activities" name="type" />
-          <el-checkbox label="Offline activities" name="type" />
-          <el-checkbox label="Simple brand exposure" name="type" />
-        </el-checkbox-group>
-      </el-form-item>
-      <el-form-item label="Resources">
-        <el-radio-group v-model="form.resource">
-          <el-radio label="Sponsor" />
-          <el-radio label="Venue" />
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="Activity form">
-        <el-input v-model="form.desc" type="textarea" />
+      <el-form-item prop="desc" label="Description">
+        <el-input ref="desc" v-model="form.desc" type="textarea" :autosize="{ minRows: 5, maxRows: 10}" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">Create</el-button>
-        <el-button @click="onCancel">Cancel</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
+
 export default {
   data() {
+    const validateName = (rule, value, callback) => {
+      if (value.length < 3 || value.length > 20) {
+        callback(new Error('活动名称长度在 3 到 20个字符'))
+      } else {
+        callback()
+      }
+    }
+    const validateDesc = (rule, value, callback) => {
+      if (value.length < 15 || value.length > 200) {
+        callback(new Error('活动描述长度在 15 到 200个字符'))
+      } else {
+        callback()
+      }
+    }
     return {
       form: {
         name: '',
-        region: '',
-        date1: '',
-        date2: '',
         delivery: false,
-        type: [],
-        resource: '',
         desc: ''
+      },
+      Rules: {
+        name: [{ required: true, trigger: 'blur', validator: validateName }],
+        desc: [{ required: true, trigger: 'blur', validator: validateDesc }]
       }
     }
   },
   methods: {
     onSubmit() {
-      this.$message('submit!')
-    },
-    onCancel() {
-      this.$message({
-        message: 'cancel!',
-        type: 'warning'
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          this.$confirm('是否确认提交?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.$message({
+              type: 'success',
+              message: '提交成功!'
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消'
+            })
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
       })
     }
   }
@@ -78,8 +77,5 @@ export default {
 </script>
 
 <style scoped>
-.line{
-  text-align: center;
-}
 </style>
 
