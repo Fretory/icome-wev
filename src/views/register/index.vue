@@ -8,7 +8,7 @@
 
       <el-form-item prop="username">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <svg-icon icon-class="user" /> 
         </span>
         <el-input
           ref="username"
@@ -40,31 +40,29 @@
         </span>
       </el-form-item>
 
-      <el-form-item prop="Repassword">
+      <el-form-item prop="repassword">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
         <el-input
           :key="passwordType"
-          ref="password"
+          ref="repassword"
           v-model="registerForm.repassword"
           :type="passwordType"
           placeholder="Password"
-          name="password"
+          name="repassword"
           tabindex="2"
           auto-complete="on"
         />
-        <span class="show-pwd" @click="showPwd">
+        <span class="show-pwd" @click="showrePwd">
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-
-
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-radio-group class="rolestyle" v-model="registerForm.role">
+        <el-radio-group class="rolestyle" v-model="registerForm.roles">
          <el-radio label="学生"></el-radio>
          <el-radio label="老师"></el-radio>
         </el-radio-group>
@@ -94,9 +92,21 @@ export default {
         callback()
       }
     }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+    const validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      } else {
+        if (this.registerForm.repassword !== '') {
+          this.$refs.registerForm.validateField('repassword')
+        }
+        callback()
+      }
+    }
+    const validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.registerForm.password) {
+        callback(new Error('两次输入密码不一致!'))
       } else {
         callback()
       }
@@ -105,12 +115,13 @@ export default {
       registerForm: {
         username: '',
         password: '',
-        repassword:'',
-        role:'学生'
+        repassword: '',
+        roles: '学生'
       },
       registerRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        repassword: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        password: [{ required: true, trigger: 'blur', validator: validatePass }],
+        repassword: [{ required: true, trigger: 'blur', validator: validatePass2 }]
       },
       loading: false,
       passwordType: 'password',
@@ -136,6 +147,16 @@ export default {
         this.$refs.password.focus()
       })
     },
+    showrePwd() {
+      if (this.passwordType === 'password') {
+        this.passwordType = ''
+      } else {
+        this.passwordType = 'password'
+      }
+      this.$nextTick(() => {
+        this.$refs.repassword.focus()
+      })
+    },
     // handleregister() {
     //   this.$refs.registerForm.validate(valid => {
     //     if (valid) {
@@ -152,8 +173,23 @@ export default {
     //     }
     //   })
     // },
-    handleRegister(){
-
+    handleRegister() {
+      this.$refs.registerForm.validate(valid => {
+        if (valid) {
+          this.loading = true
+          this.$store.dispatch('user/register', this.registerForm).then(() => {
+            console.log('在index下注册成功')
+            this.$router.push({ path: '/login' })
+            this.loading = false
+          }).catch(() => {
+            console.log('用户名已被注册！！')
+            this.loading = false
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     }
     // toregister(){
     //   this.$router.push({ path: this.redirect || '/register' })

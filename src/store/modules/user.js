@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getInfo, register } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -51,6 +51,28 @@ const actions = {
         setToken(data.token)
         resolve()
       }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+  // user register
+  register({ commit }, userInfo) {
+    const { username, password, repassword, roles } = userInfo
+    return new Promise((resolve, reject) => {
+      register({ username: username.trim(), password: password, repassword: repassword, roles: roles }).then(response => {
+        const { data } = response
+        console.log(data)
+        console.log(response)
+        // commit('SET_TOKEN', data.token)
+        // setToken(data.token)
+        if (data.code === 500) {
+          console.log(data.message)
+          console.log('在register方法下注册成功')
+          resolve()
+        }
+      }).catch(error => {
+        console.log(error)
+        console.log('注册失败，用户名重复')
         reject(error)
       })
     })
