@@ -53,7 +53,7 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: '我的主页',
+      name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
       meta: { title: '我的主页', icon: 'dashboard' }
     }]
@@ -64,7 +64,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'records',
-        name: '项目一览',
+        name: 'AllRecords',
         component: () => import('@/views/records/index'),
         meta: {
           title: '项目一览',
@@ -108,7 +108,7 @@ export const asyncRoutes = [
     children: [
       {
         path: 'index',
-        name: '发布项目',
+        name: 'From',
         component: () => import('@/views/form/index'),
         meta: {
           title: '发布项目',
