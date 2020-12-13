@@ -53,10 +53,25 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: '主页',
+      name: '我的主页',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: '主页', icon: 'dashboard' }
+      meta: { title: '我的主页', icon: 'dashboard' }
     }]
+  },
+  {
+    path: '/records',
+    component: Layout,
+    children: [
+      {
+        path: 'records',
+        name: '项目一览',
+        component: () => import('@/views/records/index'),
+        meta: {
+          title: '项目一览',
+          icon: 'el-icon-s-help'
+        }
+      }
+    ]
   }
   // 方便之后参考学习如何配置路由
   // {
@@ -93,10 +108,10 @@ export const asyncRoutes = [
     children: [
       {
         path: 'index',
-        name: '发布',
+        name: '发布项目',
         component: () => import('@/views/form/index'),
         meta: {
-          title: '发布',
+          title: '发布项目',
           icon: 'form',
           roles: ['teacher']
         }
