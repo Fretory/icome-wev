@@ -8,7 +8,7 @@ const tokens = {
   }
 }
 
-const userlist=['111','22222']
+const userlist = ['111', '22222']
 
 const users = {
   'admin-token': {
@@ -62,26 +62,23 @@ module.exports = [
       // const { username } = config.body
       let flag = 0
       const { username } = config.body
-      for(let i=0,len=userlist.length;i<len;i++)
-      {
-        if(username == userlist[i]){
-          flag = 1;
+      for (let i = 0, len = userlist.length; i < len; i++) {
+        if (username === userlist[i]) {
+          flag = 1
         }
       }
-      if (flag == 1) {
+      if (flag === 1) {
         return {
-          code:10000,
-          data:{
+          code: 10000,
+          data: {
             code: 20000,
             message: '注册失败.'
           }
         }
-      }
-      else
-      {
+      } else {
         return {
-          code:20000,
-          data:{
+          code: 20000,
+          data: {
             code: 500,
             message: '注册成功.'
           }

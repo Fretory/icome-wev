@@ -121,7 +121,7 @@ export default {
         }
       })
     },
-    toregister(){
+    toregister() {
       this.$router.push({ path: '/register' })
       this.loading = false
     }
