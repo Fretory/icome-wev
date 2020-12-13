@@ -62,18 +62,18 @@
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-radio-group class="rolestyle" v-model="registerForm.roles">
-         <el-radio label="学生"></el-radio>
-         <el-radio label="老师"></el-radio>
+        <el-radio-group v-model="registerForm.roles" class="rolestyle">
+          <el-radio label="学生" />
+          <el-radio label="老师" />
         </el-radio-group>
       </el-form-item>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleRegister">Register</el-button>
 
-<!--      <div class="tips">-->
-<!--        <span style="margin-right:20px;">username: admin</span>-->
-<!--        <span> password: any</span>-->
-<!--      </div>-->
+      <!--      <div class="tips">-->
+      <!--        <span style="margin-right:20px;">username: admin</span>-->
+      <!--        <span> password: any</span>-->
+      <!--      </div>-->
 
     </el-form>
   </div>
@@ -222,16 +222,16 @@ $cursor: #fff;
 
     input {
       background: transparent;
-      border: 0px;
+      border: 0;
       -webkit-appearance: none;
-      border-radius: 0px;
+      border-radius: 0;
       padding: 12px 5px 12px 15px;
       color: $light_gray;
       height: 47px;
       caret-color: $cursor;
 
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
+        box-shadow: 0 0 0 1000px $bg inset !important;
         -webkit-text-fill-color: $cursor !important;
       }
     }
