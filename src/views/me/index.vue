@@ -14,17 +14,17 @@
           <span>{{ row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="Date" width="150px">
+      <el-table-column align="center" label="Date" width="150">
         <template slot-scope="{row}">
           <span>{{ row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Title" min-width="150px">
+      <el-table-column label="Title" min-width="150">
         <template slot-scope="{row}">
           <span class="link-type">{{ row.title }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="Author" width="110px">
+      <el-table-column align="center" label="Author" width="110">
         <template slot-scope="{row}">
           <span>{{ row.author }}</span>
         </template>
@@ -36,13 +36,16 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="Actions" align="center" width="230" class-name="small-padding fixed-width">
+      <el-table-column label="Actions" align="center" width="250" class-name="small-padding fixed-width">
         <template slot-scope="{row,$index}">
           <el-button size="mini" type="success" @click="showDetail(row,$index)">
             Show
           </el-button>
           <el-button size="mini" type="info" @click="editDetail(row,$index)">
             Edit
+          </el-button>
+          <el-button size="mini" type="warning" @click="manage(row,$index)">
+            Manage
           </el-button>
         </template>
       </el-table-column>
@@ -97,13 +100,13 @@
         border
         style="width: 100%"
       >
-        <el-table-column align="center" label="ID" >
+        <el-table-column align="center" label="ID">
           <template slot-scope="{row}">
             <span>{{ row.joinerID }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="Name" >
+        <el-table-column align="center" label="Name">
           <template slot-scope="{row}">
             <span>{{ row.name }}</span>
           </template>
@@ -123,6 +126,34 @@
           Cancel
         </el-button>
       </div>
+    </el-dialog>
+
+    <el-dialog
+      :visible.sync="dialogEditVisible"
+      title="Edit"
+      :fullscreen="true"
+    >
+      <el-form ref="temp" :rules="Rules" :model="temp" label-position="left">
+        <el-form-item prop="title" label="Activity name">
+          <el-input ref="title" v-model="temp.title" />
+        </el-form-item>
+        <el-form-item label="Status">
+          <el-radio-group v-model="temp.status">
+            <el-radio :label="0">筹备中</el-radio>
+            <el-radio :label="1">招募中</el-radio>
+            <el-radio :label="2">已结束</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item prop="desc" label="Description">
+          <el-input ref="desc" v-model="temp.desc" type="textarea" :autosize="{ minRows: 5, maxRows: 10}" />
+        </el-form-item>
+        <el-form-item>
+          <el-button :loading="loading" type="primary" @click="onSubmit">Update</el-button>
+          <el-button @click="dialogEditVisible = false">
+            Cancel
+          </el-button>
+        </el-form-item>
+      </el-form>
     </el-dialog>
   </div>
 </template>
@@ -151,6 +182,20 @@ export default {
     }
   },
   data() {
+    const validateName = (rule, value, callback) => {
+      if (value.length < 3 || value.length > 20) {
+        callback(new Error('活动名称长度在 3 到 20个字符'))
+      } else {
+        callback()
+      }
+    }
+    const validateDesc = (rule, value, callback) => {
+      if (value.length < 15 || value.length > 200) {
+        callback(new Error('活动描述长度在 15 到 200个字符'))
+      } else {
+        callback()
+      }
+    }
     return {
       tableKey: 0,
       list: null,
@@ -171,11 +216,17 @@ export default {
         desc: '',
         author: ''
       },
+      dialogEditVisible: false,
       dialogFormVisible: false,
       queryJoiners: {
         id: 0
         // 项目id
-      }
+      },
+      Rules: {
+        title: [{ required: true, trigger: 'blur', validator: validateName }],
+        desc: [{ required: true, trigger: 'blur', validator: validateDesc }]
+      },
+      loading: false
     }
   }, computed: {
     ...mapGetters(
@@ -213,7 +264,9 @@ export default {
       })
     },
     editDetail(row) {
-      console.log(row.id)
+      this.resetTemp()
+      this.temp = Object.assign({}, row)
+      this.dialogEditVisible = true
     },
     resetTemp() {
       this.temp = {
@@ -221,9 +274,31 @@ export default {
         timestamp: new Date(),
         title: '',
         status: 0,
-        desc: '',
+        desc: 'test words',
         author: ''
       }
+    },
+    onSubmit() {
+      // 这里放更新数据的请求
+      this.$refs.temp.validate(valid => {
+        if (valid) {
+          this.loading = true
+          setTimeout(() => {
+            this.loading = false
+            this.$message('提交成功')
+            this.dialogEditVisible = false
+            this.getList()
+          }, 1.5 * 1000)
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+      this.$message('更新成功')
+    },
+    manage(row) {
+      // 饿了,睡觉去,明天写审批
+      console.log(row)
     }
   }
 }
