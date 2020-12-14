@@ -73,6 +73,7 @@ export const constantRoutes = [
       }
     ]
   }
+
   // 方便之后参考学习如何配置路由
   // {
   //   path: '/example',
@@ -113,6 +114,22 @@ export const asyncRoutes = [
         meta: {
           title: '发布项目',
           icon: 'form',
+          roles: ['teacher']
+        }
+      }
+    ]
+  },
+  {
+    path: '/me',
+    component: Layout,
+    children: [
+      {
+        path: 'me',
+        name: 'MyProject',
+        component: () => import('@/views/me/index'),
+        meta: {
+          title: '我的项目',
+          icon: 'el-icon-s-management',
           roles: ['teacher']
         }
       }
