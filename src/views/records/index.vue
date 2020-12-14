@@ -152,7 +152,6 @@ export default {
         desc: '',
         author: ''
       },
-      tempStatus: '',
       dialogFormVisible: false,
       loading: false,
       applyStatus: true
@@ -248,6 +247,5 @@ export default {
   &-container{
     margin: 30px;
   }
-
 }
 </style>

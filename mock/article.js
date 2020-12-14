@@ -111,6 +111,73 @@ module.exports = [
         data: 'success'
       }
     }
+  },
+  {
+    url: '/vue-element-admin/article/me',
+    type: 'get',
+    response: config => {
+      const L = []
+      const { importance, type, title, page = 1, limit = 20, sort, username } = config.query
+      for (let i = 0; i < count; ++i) {
+        L.push(Mock.mock({
+          id: i,
+          timestamp: +Mock.Random.date('T'),
+          author: username,
+          reviewer: '@first',
+          title: '@title(5, 10)',
+          content_short: 'mock data',
+          content: baseContent,
+          forecast: '@float(0, 100, 2, 2)',
+          importance: '@integer(1, 3)',
+          'type|1': ['CN', 'US', 'JP', 'EU'],
+          'status|1': [0, 1, 2],
+          display_time: '@datetime',
+          comment_disabled: true,
+          pageviews: '@integer(300, 5000)',
+          image_uri,
+          platforms: ['a-platform']
+        }))
+      }
+
+      let mockList = L.filter(item => {
+        if (importance && item.importance !== +importance) return false
+        if (type && item.type !== type) return false
+        return !(title && item.title.indexOf(title) < 0)
+      })
+      if (sort === '-id') {
+        mockList = mockList.reverse()
+      }
+      const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
+      return {
+        code: 20000,
+        data: {
+          total: L.length,
+          items: pageList
+        }
+      }
+    }
+  },
+  {
+    url: '/vue-element-admin/article/allPass',
+    type: 'get',
+    response: _ => {
+      const L = []
+      for (let i = 0; i < 20; ++i) {
+        L.push(Mock.mock({
+          joinerID: Mock.Random.id(),
+          timestamp: +Mock.Random.date('T'),
+          name: '@first'
+        }))
+      }
+      console.log(L)
+      return {
+        code: 20000,
+        data: {
+          total: L.length,
+          items: L
+        }
+      }
+    }
   }
 ]
 

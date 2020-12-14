@@ -7,35 +7,18 @@ export function fetchList(query) {
     params: query
   })
 }
-
-export function fetchArticle(id) {
+export function fetchMyList(query) {
   return request({
-    url: '/vue-element-admin/article/detail',
+    url: '/vue-element-admin/article/me',
     method: 'get',
-    params: { id }
+    params: query
   })
 }
 
-export function fetchPv(pv) {
+export function fetchAllPass(query) {
   return request({
-    url: '/vue-element-admin/article/pv',
+    url: '/vue-element-admin/article/allPass',
     method: 'get',
-    params: { pv }
-  })
-}
-
-export function createArticle(data) {
-  return request({
-    url: '/vue-element-admin/article/create',
-    method: 'post',
-    data
-  })
-}
-
-export function updateArticle(data) {
-  return request({
-    url: '/vue-element-admin/article/update',
-    method: 'post',
-    data
+    params: query
   })
 }
