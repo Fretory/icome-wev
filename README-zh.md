@@ -1,3 +1,25 @@
+# i-come web
+
+> 这是一个基于vue-admin-template的实验室管理后台,在作者的原基础上进行了一定的修改，写下的一些功能。
+
+[线上地址](https://fretory.github.io/icome-web/)
+
+[国内访问](http://fretory.gitee.io/icome-web/#/dashboard)
+
+本版本是基于vue-admin-template的权限控制分支修改，体验时账户密码为
+
+> 用户名：admin 密码：任意
+>
+> 用户名：editor 密码：任意
+
+目前已经实现的功能
+
+* 个人主页(抄大佬的)
+* 查看所有项目
+* 申请项目
+* 审批项目
+* 个人的项目查看
+
 # vue-admin-template
 
 > 这是一个极简的 vue admin 管理后台。它只包含了 Element UI & axios & iconfont & permission control & lint，这些搭建后台必要的东西。
