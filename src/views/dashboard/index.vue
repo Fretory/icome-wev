@@ -22,7 +22,7 @@
               <timeline />
             </el-tab-pane>
             <el-tab-pane label="Account" name="account">
-              <account :user="user"/>
+              <account :user="user" />
             </el-tab-pane>
           </el-tabs>
         </el-card>

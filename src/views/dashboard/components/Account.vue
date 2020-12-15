@@ -17,8 +17,7 @@
         v-model="userInfo.birthday"
         type="date"
         placeholder="选择日期"
-      >
-      </el-date-picker>
+      />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submit">Update</el-button>
