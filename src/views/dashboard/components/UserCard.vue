@@ -6,14 +6,15 @@
 
     <div class="user-profile">
       <div class="box-center">
-        <pan-thumb :image="user.avatar" :height="'100px'" :width="'100px'" :hoverable="false">
-          <div>Hello</div>
-          {{ user.name }}
-        </pan-thumb>
+        <!--        <pan-thumb :image="user.avatar" :height="'100px'" :width="'100px'" :hoverable="false">-->
+        <!--          <div>Hello</div>-->
+        <!--          {{ user.name }}-->
+        <!--        </pan-thumb>-->
+        <el-avatar :size="125" :src="computeAvatar(user.name)" />
       </div>
       <div class="box-center">
         <div class="user-name text-center">{{ user.name }}</div>
-        <div class="user-role text-center text-muted">{{ user.role }}</div>
+        <!--        <div class="user-role text-center text-muted">{{ user.role }}</div>-->
       </div>
     </div>
 
@@ -64,10 +65,11 @@
 </template>
 
 <script>
-import PanThumb from '@/components/PanThumb'
+// import PanThumb from '@/components/PanThumb'
+import { generateFromString } from 'generate-avatar'
 
 export default {
-  components: { PanThumb },
+  // components: { PnThumb },
   props: {
     user: {
       type: Object,
@@ -81,6 +83,12 @@ export default {
           birthday: ''
         }
       }
+    }
+  },
+  methods: {
+    generateFromString,
+    computeAvatar(username) {
+      return `data:image/svg+xml;utf8,${generateFromString(username)}`
     }
   }
 }
