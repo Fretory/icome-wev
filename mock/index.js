@@ -5,11 +5,13 @@ const user = require('./user')
 const participation = require('./participation')
 const article = require('./article')
 const apply = require('./apply')
+const applications = require('./applications')
 const mocks = [
   ...user,
   ...participation,
   ...article,
-  ...apply
+  ...apply,
+  ...applications
 ]
 
 // for front mock

@@ -72,6 +72,21 @@ export const constantRoutes = [
         }
       }
     ]
+  },
+  {
+    path: '/application',
+    component: Layout,
+    children: [
+      {
+        path: 'records',
+        name: 'AllRecords',
+        component: () => import('@/views/applications/index'),
+        meta: {
+          title: '我的申请',
+          icon: 'el-icon-s-opportunity'
+        }
+      }
+    ]
   }
 
   // 方便之后参考学习如何配置路由
@@ -114,7 +129,7 @@ export const asyncRoutes = [
         meta: {
           title: '发布项目',
           icon: 'form',
-          roles: ['teacher']
+          roles: ['admin']
         }
       }
     ]
@@ -130,7 +145,7 @@ export const asyncRoutes = [
         meta: {
           title: '我的项目',
           icon: 'el-icon-s-management',
-          roles: ['teacher']
+          roles: ['admin']
         }
       }
     ]
