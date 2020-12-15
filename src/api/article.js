@@ -22,3 +22,11 @@ export function fetchAllPass(query) {
     params: query
   })
 }
+
+export function fetchAllApplication(query) {
+  return request({
+    url: '/vue-element-admin/article/allApplication',
+    method: 'get',
+    params: query
+  })
+}

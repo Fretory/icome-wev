@@ -139,10 +139,33 @@ module.exports = [
         L.push(Mock.mock({
           joinerID: Mock.Random.id(),
           timestamp: +Mock.Random.date('T'),
-          name: '@first'
+          name: '@first',
+          status: 2
         }))
       }
-      console.log(L)
+      return {
+        code: 20000,
+        data: {
+          total: L.length,
+          items: L
+        }
+      }
+    }
+  },
+  {
+    url: '/vue-element-admin/article/allApplication',
+    type: 'get',
+    response: _ => {
+      const L = []
+      const c = Mock.Random.integer(1, 30)
+      for (let i = 0; i < c; ++i) {
+        L.push(Mock.mock({
+          joinerID: Mock.Random.id(),
+          timestamp: +Mock.Random.date('T'),
+          name: '@first',
+          status: 1
+        }))
+      }
       return {
         code: 20000,
         data: {

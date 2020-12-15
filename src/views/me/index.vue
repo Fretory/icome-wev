@@ -55,7 +55,6 @@
     <el-dialog
       :visible.sync="dialogFormVisible"
       title="Details"
-      :fullscreen="true"
     >
       <el-row>
         <el-col :span="4"><b>Title</b></el-col>
@@ -131,7 +130,7 @@
     <el-dialog
       :visible.sync="dialogEditVisible"
       title="Edit"
-      :fullscreen="true"
+      width="60%"
     >
       <el-form ref="temp" :rules="Rules" :model="temp" label-position="left">
         <el-form-item prop="title" label="Activity name">
@@ -155,13 +154,53 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+
+    <el-dialog
+      :visible.sync="dialogManageVisible"
+      title="Manage"
+    >
+      <el-table
+        :data="joiners"
+        height="550"
+        border
+        fit
+      >
+        <el-table-column align="center" label="ID">
+          <template slot-scope="{row}">
+            <span>{{ row.joinerID }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column align="center" label="Name">
+          <template slot-scope="{row}">
+            <span>{{ row.name }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column align="center" label="ApplyDate">
+          <template slot-scope="{row}">
+            <span>{{ row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="Actions" class-name="small-padding fixed-width" width="200">
+          <template slot-scope="{row,$index}">
+            <el-button type="success" size="mini" @click="handleAccept(row,$index)">
+              Accept
+            </el-button>
+            <el-button type="danger" size="mini" @click="handleReject(row,$index)">
+              Reject
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination'
-import { fetchAllPass, fetchMyList } from '@/api/article'
+import { fetchAllPass, fetchMyList, fetchAllApplication } from '@/api/article'
 import { mapGetters } from 'vuex'
 export default {
   name: 'Me',
@@ -218,6 +257,7 @@ export default {
       },
       dialogEditVisible: false,
       dialogFormVisible: false,
+      dialogManageVisible: false,
       queryJoiners: {
         id: 0
         // 项目id
@@ -253,11 +293,10 @@ export default {
     },
     showDetail(row) {
       this.resetTemp()
+      this.resetJoiners()
       this.temp = Object.assign({}, row)
       this.dialogFormVisible = true
       this.queryJoiners.id = row.id
-      this.joiners = null
-      this.joinersLength = 0
       fetchAllPass(this.queryJoiners).then((response) => {
         this.joiners = response.data.items
         this.joinersLength = response.data.length
@@ -278,6 +317,10 @@ export default {
         author: ''
       }
     },
+    resetJoiners() {
+      this.joiners = null
+      this.joinersLength = 0
+    },
     onSubmit() {
       // 这里放更新数据的请求
       this.$refs.temp.validate(valid => {
@@ -297,8 +340,31 @@ export default {
       this.$message('更新成功')
     },
     manage(row) {
-      // 饿了,睡觉去,明天写审批
-      console.log(row)
+      this.resetJoiners()
+      this.dialogManageVisible = true
+      this.queryJoiners.id = row.id
+      fetchAllApplication(this.queryJoiners).then((response) => {
+        this.joiners = response.data.items
+        this.joinersLength = response.data.length
+      })
+    },
+    handleReject(row, index) {
+      this.$notify({
+        title: 'Reject',
+        message: 'Reject Successfully',
+        type: 'success',
+        duration: 2000
+      })
+      this.joiners.splice(index, 1)
+    },
+    handleAccept(row, index) {
+      this.$notify({
+        title: 'Accept',
+        message: 'Accept Successfully',
+        type: 'success',
+        duration: 2000
+      })
+      this.joiners.splice(index, 1)
     }
   }
 }
