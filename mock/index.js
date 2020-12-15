@@ -6,12 +6,14 @@ const participation = require('./participation')
 const article = require('./article')
 const apply = require('./apply')
 const applications = require('./applications')
+const allusers = require('./allusers')
 const mocks = [
   ...user,
   ...participation,
   ...article,
   ...apply,
-  ...applications
+  ...applications,
+  ...allusers
 ]
 
 // for front mock

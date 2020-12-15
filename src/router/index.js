@@ -78,8 +78,8 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: 'records',
-        name: 'AllRecords',
+        path: 'allRecords',
+        name: 'allRecords',
         component: () => import('@/views/applications/index'),
         meta: {
           title: '我的申请',
@@ -150,7 +150,22 @@ export const asyncRoutes = [
       }
     ]
   },
-
+  {
+    path: '/user',
+    component: Layout,
+    children: [
+      {
+        path: 'user',
+        name: 'user',
+        component: () => import('@/views/users/index'),
+        meta: {
+          title: '学生一览',
+          icon: 'el-icon-user-solid',
+          roles: ['admin']
+        }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
